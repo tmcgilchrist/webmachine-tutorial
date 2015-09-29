@@ -97,7 +97,7 @@ create_path(ReqData, Context) ->
 generate(Attributes) ->
     {struct, [{<<"tweet">>, {struct, Decoded}}]} =
                                         mochijson2:decode(Attributes),
-    Id = erlang:now(),
+    Id = erlang:monotonic_time(),
     Message = proplists:get_value(<<"message">>, Decoded),
     Avatar = proplists:get_value(<<"avatar">>, Decoded),
     {Id, [{message, Message}, {avatar, Avatar}]}.
