@@ -14,11 +14,14 @@ ensure_started(App) ->
 %% @doc Starts the app for inclusion in a supervisor tree
 -spec start_link() -> {ok,Pid::pid()}.
 start_link() ->
-    ensure_started(compiler),
-    ensure_started(syntax_tools),
-    ensure_started(lager),
     ensure_started(inets),
     ensure_started(crypto),
+    ensure_started(syntax_tools),
+    ensure_started(compiler),
+    ensure_started(xmerl),
+    ensure_started(asn1),
+    ensure_started(public_key),
+    ensure_started(ssl),
     ensure_started(mochiweb),
     application:set_env(webmachine, webmachine_logger_module,
                         webmachine_log),
@@ -28,11 +31,14 @@ start_link() ->
 %% @doc Start the tweeter server.
 -spec start() -> ok.
 start() ->
-    ensure_started(compiler),
-    ensure_started(syntax_tools),
-    ensure_started(lager),
     ensure_started(inets),
     ensure_started(crypto),
+    ensure_started(syntax_tools),
+    ensure_started(compiler),
+    ensure_started(xmerl),
+    ensure_started(asn1),
+    ensure_started(public_key),
+    ensure_started(ssl),
     ensure_started(mochiweb),
     application:set_env(webmachine, webmachine_logger_module,
                         webmachine_log),
@@ -45,9 +51,12 @@ stop() ->
     Res = application:stop(tweeter),
     application:stop(webmachine),
     application:stop(mochiweb),
+    application:stop(ssl),
+    application:stop(public_key),
+    application:stop(asn1),
+    application:stop(xmerl),
+    application:stop(compiler),
+    application:stop(syntax_tools),
     application:stop(crypto),
     application:stop(inets),
-    application:stop(lager),
-    application:stop(syntax_tools),
-    application:stop(compiler),
     Res.
